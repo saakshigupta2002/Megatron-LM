@@ -1375,6 +1375,12 @@ def load_args_from_checkpoint(
             checkpoint_args, 'add_bias_linear', not getattr(checkpoint_args, 'disable_bias_linear')
         )
 
+    if hasattr(checkpoint_args, 'layernorm_zero_centered_gamma'):
+        setattr(
+            checkpoint_args, 'apply_layernorm_1p',
+            getattr(checkpoint_args, 'layernorm_zero_centered_gamma')
+        )
+
     def _set_arg(arg_name, old_arg_name=None, force=False):
         if not force and getattr(args, arg_name, None) is not None:
             return

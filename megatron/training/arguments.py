@@ -1047,6 +1047,10 @@ def validate_args(args, defaults={}):
     if args.add_bias_linear:
         args.add_qkv_bias = True
 
+    # Backward compatibility: 'layernorm_zero_centered_gamma' uses --apply-layernorm-1p
+    # as its CLI flag but stores under the field name. Legacy code references the old name.
+    args.apply_layernorm_1p = args.layernorm_zero_centered_gamma
+
     if args.qk_clip:
         assert is_te_min_version("2.9.0"), \
             '--qk-clip is only supported with TE >= 2.9.0.'
